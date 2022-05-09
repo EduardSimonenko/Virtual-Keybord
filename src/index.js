@@ -26,6 +26,26 @@ function addElement(type, className, place) {
   return element;
 }
 
+function deleteLastLetter(str) {
+  return str.split('').slice(0, str.length - 1).join('');
+}
+
+function translateFontCase() {
+  if (CAPSLOCK.classList.contains('active')) {
+    for (let i = 0; i < KEYS.length; i++) {
+      if (KEYS[i].innerText.length < 2) {
+        KEYS[i].innerText = KEYS[i].innerText.toUpperCase();
+      }
+    }
+  } else {
+    for (let i = 0; i < KEYS.length; i++) {
+      if (KEYS[i].innerText.length < 2) {
+        KEYS[i].innerText = KEYS[i].innerText.toLowerCase();
+      }
+    }
+  }
+}
+
 const CONTAINER = addElement('div', 'container', document.body);
 const TITLE = addElement('h1', 'title', CONTAINER);
 const TEXTAREA = addElement('textarea', 'textarea', CONTAINER);
@@ -86,6 +106,7 @@ for (let i = 0; i < KEYS.length; i++) {
 BODY.addEventListener('keydown', (event) => {
   if (event.code == 'CapsLock') {
     CAPSLOCK.classList.toggle('active');
+    translateFontCase();
   }
 });
 
@@ -99,9 +120,19 @@ document.addEventListener('keydown', (event) => {
     }
     if (event.code == 'ShiftLeft') {
       SHIFT_RIGHT.classList.remove('active');
+      for (let i = 0; i < KEYS.length; i++) {
+        if (KEYS[i].innerText.length < 2) {
+          KEYS[i].innerText = KEYS[i].innerText.toUpperCase();
+        }
+      }
     }
     if (event.code == 'ShiftRight') {
       SHIFT_LEFT.classList.remove('active');
+      for (let i = 0; i < KEYS.length; i++) {
+        if (KEYS[i].innerText.length < 2) {
+          KEYS[i].innerText = KEYS[i].innerText.toUpperCase();
+        }
+      }
     }
     if (event.code == 'ControlLeft') {
       CTRL_RIGHT.classList.remove('active');
@@ -131,10 +162,20 @@ document.addEventListener('keyup', (event) => {
     if (event.code == 'ShiftLeft') {
       SHIFT_RIGHT.classList.remove('active');
       SHIFT_RIGHT.classList.remove('remove');
+      for (let i = 0; i < KEYS.length; i++) {
+        if (KEYS[i].innerText.length < 2) {
+          KEYS[i].innerText = KEYS[i].innerText.toLowerCase();
+        }
+      }
     }
     if (event.code == 'ShiftRight') {
       SHIFT_LEFT.classList.remove('active');
       SHIFT_LEFT.classList.remove('remove');
+      for (let i = 0; i < KEYS.length; i++) {
+        if (KEYS[i].innerText.length < 2) {
+          KEYS[i].innerText = KEYS[i].innerText.toLowerCase();
+        }
+      }
     }
     if (event.code == 'ControlLeft') {
       CTRL_RIGHT.classList.remove('active');
@@ -158,19 +199,13 @@ document.addEventListener('keyup', (event) => {
   }
 });
 
-
-
-function deleteLastLetter(str) {
-  return str.split('').slice(0, str.length - 1).join('');
-}
-
-
 document.addEventListener('click', (event) => {
   if (event.target.innerText.length < 2) {
     TEXTAREA.value += event.target.innerText;
   }
   if (event.target.innerText == 'CapsLock') {
     CAPSLOCK.classList.toggle('active');
+    translateFontCase();
   } else {
     event.target.classList.add('remove');
     setTimeout(() => {
@@ -191,16 +226,18 @@ document.addEventListener('keydown', (event) => {
 });
 
 document.addEventListener('keyup', (event) => {
-  if (arrChars.length == 0) return;
-  if (arrChars.length !== 2) return;
-
   for (let i = 0; i < changeLangArr.length; i++) {
-    if (changeLangArr[i] !== arrChars[i]) return;
+    if (changeLangArr[i] !== arrChars[i]) {
+      arrChars.length = 0;
+      return;
+    }
   }
 
   if (CONTAINER_KEYS.classList.contains('eng')) {
     for (let i = 0; i < KEYS.length; i++) {
-      KEYS[i].innerText = KEYS[i].getAttribute('keyname');
+      let arr = [];
+      arr = arr.concat(...KEYBOARD);
+      KEYS[i].innerText = arr[i];
       CONTAINER_KEYS.classList.remove('eng');
     }
   } else {
@@ -209,6 +246,7 @@ document.addEventListener('keyup', (event) => {
       KEYS[i].innerText = ENG_KEYBOARD[i];
     }
   }
-
+  CAPSLOCK.classList.remove('active');
   arrChars.length = 0;
 });
+
