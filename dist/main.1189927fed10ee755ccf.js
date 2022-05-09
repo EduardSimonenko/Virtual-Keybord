@@ -1,1 +1,0 @@
-!function(){"use strict";console.log(function(){for(var n=0,o=0;o<arguments.length;o++)n+=o<0||arguments.length<=o?void 0:arguments[o];return n}(12412,34534,43543))}();

@@ -1,0 +1,99 @@
+/*!****************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/styles/style.scss ***!
+  \****************************************************************************************************************/
+@import url(https://fonts.googleapis.com/css2?family=Lato&display=swap);
+/*!********************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/styles/style.scss (1) ***!
+  \********************************************************************************************************************/
+html {
+  font-size: 10px; }
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Lato', sans-serif;
+  transition: 0.2s; }
+
+.container {
+  max-width: 990px;
+  margin: auto; }
+
+.textarea {
+  width: 100%;
+  margin: 100px 0 20px;
+  padding: 20px;
+  background-color: #e3e3e3;
+  border: none;
+  border-radius: 7px;
+  font-size: 1.8rem;
+  line-height: 2.0rem;
+  resize: vertical;
+  max-height: 350px;
+  transition: 0.2s; }
+
+.title {
+  padding: 30px 0;
+  text-align: center;
+  font-size: 3.5rem; }
+
+.container-keys {
+  width: 100%;
+  background-color: #2b246b;
+  border-radius: 10px; }
+
+.row {
+  display: flex;
+  flex-wrap: nowrap; }
+
+.key {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 7px;
+  min-width: 50px;
+  height: 50px;
+  color: #333;
+  border-radius: 5px;
+  background-color: #fff;
+  font-size: 1.8rem; }
+  .key:hover {
+    cursor: pointer;
+    background-color: #bfe5e5; }
+  .key.active {
+    background-color: #333;
+    color: #fff; }
+  .key.remove {
+    animation: key-animation 0.6s linear; }
+
+@keyframes key-animation {
+  0% {
+    background-color: #333;
+    color: #fff; }
+  100% {
+    background-color: #fff;
+    color: #333; } }
+
+.shift {
+  width: 152px; }
+  .shift:last-child {
+    width: 120px; }
+
+.capslock {
+  width: 128px; }
+
+.tab {
+  width: 77px; }
+
+.enter {
+  width: 128px; }
+
+.backspace {
+  width: 142px; }
+
+.space {
+  width: 100%; }
+
