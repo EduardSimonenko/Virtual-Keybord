@@ -26,26 +26,6 @@ function addElement(type, className, place) {
   return element;
 }
 
-function deleteLastLetter(str) {
-  return str.split('').slice(0, str.length - 1).join('');
-}
-
-function translateFontCase() {
-  if (CAPSLOCK.classList.contains('active')) {
-    for (let i = 0; i < KEYS.length; i++) {
-      if (KEYS[i].innerText.length < 2) {
-        KEYS[i].innerText = KEYS[i].innerText.toUpperCase();
-      }
-    }
-  } else {
-    for (let i = 0; i < KEYS.length; i++) {
-      if (KEYS[i].innerText.length < 2) {
-        KEYS[i].innerText = KEYS[i].innerText.toLowerCase();
-      }
-    }
-  }
-}
-
 const CONTAINER = addElement('div', 'container', document.body);
 const TITLE = addElement('h1', 'title', CONTAINER);
 const TEXTAREA = addElement('textarea', 'textarea', CONTAINER);
@@ -56,6 +36,10 @@ TITLE.innerHTML = 'Virtual keyboard';
 TEXTAREA.setAttribute('id', 'textarea');
 TEXTAREA.setAttribute('rows', '5');
 TEXTAREA.setAttribute('cols', '40');
+
+function deleteLastLetter(str) {
+  return str.split('').slice(0, str.length - 1).join('');
+}
 
 function createKeyboard(row) {
   const ROW = addElement('div', 'row', CONTAINER_KEYS);
@@ -84,7 +68,11 @@ const CTRL_RIGHT = document.querySelectorAll('.Ctrl')[1];
 const ALT_LEFT = document.querySelector('.Alt');
 const ALT_RIGHT = document.querySelectorAll('.Alt')[1];
 const SPACE = document.querySelector('.space');
+const BACKSPACE = document.querySelector('.Backspace');
 const BODY = document.querySelector('body');
+
+const arrChars = [];
+const changeLangArr = ['ControlLeft', 'AltLeft'];
 
 for (let i = 0; i < KEYS.length; i++) {
   KEYS[i].setAttribute('keyname', KEYS[i].innerText);
@@ -103,6 +91,22 @@ for (let i = 0; i < KEYS.length; i++) {
   }
 }
 
+function translateFontCase() {
+  if (CAPSLOCK.classList.contains('active')) {
+    for (let i = 0; i < KEYS.length; i++) {
+      if (KEYS[i].innerText.length < 2) {
+        KEYS[i].innerText = KEYS[i].innerText.toUpperCase();
+      }
+    }
+  } else {
+    for (let i = 0; i < KEYS.length; i++) {
+      if (KEYS[i].innerText.length < 2) {
+        KEYS[i].innerText = KEYS[i].innerText.toLowerCase();
+      }
+    }
+  }
+}
+
 BODY.addEventListener('keydown', (event) => {
   if (event.code == 'CapsLock') {
     CAPSLOCK.classList.toggle('active');
@@ -112,8 +116,11 @@ BODY.addEventListener('keydown', (event) => {
 
 document.addEventListener('keydown', (event) => {
   for (let i = 0; i < KEYS.length; i++) {
-    if ((event.key == KEYS[i].getAttribute('keyname') || event.key == KEYS[i].getAttribute('upperCaseName')) && (event.code !== 'CapsLock')) {
+    if ((event.key == KEYS[i].getAttribute('keyname') || event.key == KEYS[i].getAttribute('upperCaseName') || event.key == KEYS[i].innerHTML.toLowerCase()) && (event.code !== 'CapsLock')) {
       KEYS[i].classList.add('active');
+      if (event.key.length < 2) {
+        TEXTAREA.value += event.key;
+      }
     }
     if (event.code == 'Space') {
       SPACE.classList.add('active');
@@ -125,6 +132,7 @@ document.addEventListener('keydown', (event) => {
           KEYS[i].innerText = KEYS[i].innerText.toUpperCase();
         }
       }
+      CAPSLOCK.classList.remove('active');
     }
     if (event.code == 'ShiftRight') {
       SHIFT_LEFT.classList.remove('active');
@@ -133,6 +141,7 @@ document.addEventListener('keydown', (event) => {
           KEYS[i].innerText = KEYS[i].innerText.toUpperCase();
         }
       }
+      CAPSLOCK.classList.remove('active');
     }
     if (event.code == 'ControlLeft') {
       CTRL_RIGHT.classList.remove('active');
@@ -146,12 +155,15 @@ document.addEventListener('keydown', (event) => {
     if (event.code == 'AltRight') {
       ALT_LEFT.classList.remove('active');
     }
+    if (event.code == 'Backspace') {
+      TEXTAREA.value.splice(0, TEXTAREA.value.length - 2);
+    }
   }
 });
 
 document.addEventListener('keyup', (event) => {
   for (let i = 0; i < KEYS.length; i++) {
-    if ((event.key == KEYS[i].getAttribute('keyname') || event.key == KEYS[i].getAttribute('upperCaseName')) && (event.code !== 'CapsLock')) {
+    if ((event.key == KEYS[i].getAttribute('keyname') || event.key == KEYS[i].getAttribute('upperCaseName') || event.key == KEYS[i].innerHTML.toLowerCase()) && (event.code !== 'CapsLock')) {
       KEYS[i].classList.remove('active');
       KEYS[i].classList.add('remove');
     }
@@ -216,9 +228,6 @@ document.addEventListener('click', (event) => {
     TEXTAREA.value = deleteLastLetter(TEXTAREA.value);
   }
 });
-
-const arrChars = [];
-const changeLangArr = ['ControlLeft', 'AltLeft'];
 
 document.addEventListener('keydown', (event) => {
   if (event.repeat) return;
