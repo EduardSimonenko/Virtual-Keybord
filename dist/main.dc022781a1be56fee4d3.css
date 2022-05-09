@@ -66,6 +66,9 @@ body {
   .key.active {
     background-color: #333;
     color: #fff; }
+  .key:active {
+    background-color: #333;
+    color: #fff; }
   .key.remove {
     animation: key-animation 0.6s linear; }
 
@@ -77,21 +80,21 @@ body {
     background-color: #fff;
     color: #333; } }
 
-.shift {
+.Shift {
   width: 152px; }
-  .shift:last-child {
+  .Shift:last-child {
     width: 120px; }
 
-.capslock {
+.CapsLock {
   width: 128px; }
 
-.tab {
+.Tab {
   width: 77px; }
 
-.enter {
+.Enter {
   width: 128px; }
 
-.backspace {
+.Backspace {
   width: 142px; }
 
 .space {
