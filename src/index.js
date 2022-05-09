@@ -1,4 +1,5 @@
 import './styles/style.scss';
+import * as func from './scripts/functions';
 
 const KEYBOARD = [
   ['ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
@@ -14,37 +15,15 @@ const ENG_KEYBOARD = [
   'Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', '▲', 'Shift',
   'Ctrl', 'Win', 'Alt', '', 'Alt', '◄', '▼', '►', 'Ctrl'];
 
-function addElement(type, className, place) {
-  const element = document.createElement(`${type}`);
-  element.className = `${className}`;
-  if (place === document.body) {
-    place.prepend(element);
-  } else {
-    place.append(element);
-  }
-
-  return element;
-}
-
-const CONTAINER = addElement('div', 'container', document.body);
-const TITLE = addElement('h1', 'title', CONTAINER);
-const TEXTAREA = addElement('textarea', 'textarea', CONTAINER);
-const CONTAINER_KEYS = addElement('div', 'container-keys', CONTAINER);
-
-TITLE.innerHTML = 'Virtual keyboard';
-
-TEXTAREA.setAttribute('id', 'textarea');
-TEXTAREA.setAttribute('rows', '5');
-TEXTAREA.setAttribute('cols', '40');
-
-function deleteLastLetter(str) {
-  return str.split('').slice(0, str.length - 1).join('');
-}
+const CONTAINER = func.addElement('div', 'container', document.body);
+const TITLE = func.addElement('h1', 'title', CONTAINER);
+const TEXTAREA = func.addElement('textarea', 'textarea', CONTAINER);
+const CONTAINER_KEYS = func.addElement('div', 'container-keys', CONTAINER);
 
 function createKeyboard(row) {
-  const ROW = addElement('div', 'row', CONTAINER_KEYS);
+  const ROW = func.addElement('div', 'row', CONTAINER_KEYS);
   for (let i = 0; i < row.length; i++) {
-    const KEY = addElement('div', 'key', ROW);
+    const KEY = func.addElement('div', 'key', ROW);
     if (row[i].length > 1) {
       KEY.classList.add(`${row[i]}`);
     }
@@ -72,6 +51,12 @@ const BODY = document.querySelector('body');
 
 const arrChars = [];
 const changeLangArr = ['ControlLeft', 'AltLeft'];
+
+TITLE.innerHTML = 'Virtual keyboard';
+
+TEXTAREA.setAttribute('id', 'textarea');
+TEXTAREA.setAttribute('rows', '5');
+TEXTAREA.setAttribute('cols', '40');
 
 for (let i = 0; i < KEYS.length; i++) {
   KEYS[i].setAttribute('keyname', KEYS[i].innerText);
@@ -107,26 +92,11 @@ for (let i = 0; i < KEYS.length; i++) {
   }
 }
 
-function translateFontCase() {
-  if (CAPSLOCK.classList.contains('active')) {
-    for (let i = 0; i < KEYS.length; i++) {
-      if (KEYS[i].innerText.length < 2) {
-        KEYS[i].innerText = KEYS[i].innerText.toUpperCase();
-      }
-    }
-  } else {
-    for (let i = 0; i < KEYS.length; i++) {
-      if (KEYS[i].innerText.length < 2) {
-        KEYS[i].innerText = KEYS[i].innerText.toLowerCase();
-      }
-    }
-  }
-}
-
 BODY.addEventListener('keydown', (event) => {
   if (event.code == 'CapsLock') {
     CAPSLOCK.classList.toggle('active');
-    translateFontCase();
+    // eslint-disable-next-line no-unused-expressions
+    CAPSLOCK.classList.contains('active') ? func.translateToUpperCase(KEYS) : func.translateToLowerCase(KEYS);
   }
 });
 
@@ -233,7 +203,8 @@ document.addEventListener('click', (event) => {
   }
   if (event.target.innerText == 'CapsLock') {
     CAPSLOCK.classList.toggle('active');
-    translateFontCase();
+    // eslint-disable-next-line no-unused-expressions
+    CAPSLOCK.classList.contains('active') ? func.translateToUpperCase(KEYS) : func.translateToLowerCase(KEYS);
   } else {
     event.target.classList.add('remove');
     setTimeout(() => {
@@ -241,7 +212,7 @@ document.addEventListener('click', (event) => {
     }, 600);
   }
   if (event.target.innerHTML === 'Backspace') {
-    TEXTAREA.value = deleteLastLetter(TEXTAREA.value);
+    TEXTAREA.value = func.deleteLastLetter(TEXTAREA.value);
   }
 });
 

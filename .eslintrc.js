@@ -8,5 +8,6 @@ module.exports = {
     'linebreak-style': 'off',
     'no-plusplus': 'off',
     eqeqeq: 'off',
+    'import/prefer-default-export': 'off',
   },
 };
