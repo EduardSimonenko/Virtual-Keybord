@@ -19,6 +19,7 @@ const CONTAINER = func.addElement('div', 'container', document.body);
 const TITLE = func.addElement('h1', 'title', CONTAINER);
 const TEXTAREA = func.addElement('textarea', 'textarea', CONTAINER);
 const CONTAINER_KEYS = func.addElement('div', 'container-keys', CONTAINER);
+const DESCRIPTION = func.addElement('div', 'description', CONTAINER);
 
 function createKeyboard(row) {
   const ROW = func.addElement('div', 'row', CONTAINER_KEYS);
@@ -53,6 +54,7 @@ const arrChars = [];
 const changeLangArr = ['ControlLeft', 'AltLeft'];
 
 TITLE.innerHTML = 'Virtual keyboard';
+DESCRIPTION.innerText = 'Для переключения языка комбинация: левыe ctrl + alt';
 
 TEXTAREA.setAttribute('id', 'textarea');
 TEXTAREA.setAttribute('rows', '5');
