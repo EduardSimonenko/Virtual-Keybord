@@ -8,11 +8,11 @@ const KEYBOARD = [
   ['Ctrl', 'Win', 'Alt', '', 'Alt', '◄', '▼', '►', 'Ctrl']];
 
 const ENG_KEYBOARD = [
-  ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
-  ['Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\', 'del'],
-  ['CapsLock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', 'Enter'],
-  ['Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', '▲', 'Shift'],
-  ['Ctrl', 'Win', 'Alt', '', 'Alt', '◄', '▼', '►', 'Ctrl']];
+  '`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace',
+  'Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\', 'del',
+  'CapsLock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', 'Enter',
+  'Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', '▲', 'Shift',
+  'Ctrl', 'Win', 'Alt', '', 'Alt', '◄', '▼', '►', 'Ctrl'];
 
 function addElement(type, className, place) {
   const element = document.createElement(`${type}`);
@@ -159,6 +159,7 @@ document.addEventListener('keyup', (event) => {
 });
 
 
+
 function deleteLastLetter(str) {
   return str.split('').slice(0, str.length - 1).join('');
 }
@@ -179,4 +180,35 @@ document.addEventListener('click', (event) => {
   if (event.target.innerHTML === 'Backspace') {
     TEXTAREA.value = deleteLastLetter(TEXTAREA.value);
   }
+});
+
+const arrChars = [];
+const changeLangArr = ['ControlLeft', 'AltLeft'];
+
+document.addEventListener('keydown', (event) => {
+  if (event.repeat) return;
+  arrChars.push(event.code);
+});
+
+document.addEventListener('keyup', (event) => {
+  if (arrChars.length == 0) return;
+  if (arrChars.length !== 2) return;
+
+  for (let i = 0; i < changeLangArr.length; i++) {
+    if (changeLangArr[i] !== arrChars[i]) return;
+  }
+
+  if (CONTAINER_KEYS.classList.contains('eng')) {
+    for (let i = 0; i < KEYS.length; i++) {
+      KEYS[i].innerText = KEYS[i].getAttribute('keyname');
+      CONTAINER_KEYS.classList.remove('eng');
+    }
+  } else {
+    for (let i = 0; i < KEYS.length; i++) {
+      CONTAINER_KEYS.classList.add('eng');
+      KEYS[i].innerText = ENG_KEYBOARD[i];
+    }
+  }
+
+  arrChars.length = 0;
 });
