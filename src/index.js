@@ -14,6 +14,12 @@ const ENG_KEYBOARD = [
   'CapsLock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', 'Enter',
   'Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', '▲', 'Shift',
   'Ctrl', 'Win', 'Alt', '', 'Alt', '◄', '▼', '►', 'Ctrl'];
+  const ENG_KEYBOARD3 = [
+    [ '`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
+    ['Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\', 'del'],
+    ['CapsLock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', 'Enter'],
+    ['Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', '▲', 'Shift'],
+    ['Ctrl', 'Win', 'Alt', '', 'Alt', '◄', '▼', '►', 'Ctrl']];
 
 const CONTAINER = func.addElement('div', 'container', document.body);
 const TITLE = func.addElement('h1', 'title', CONTAINER);
@@ -36,7 +42,11 @@ function createKeyboard(row) {
 }
 
 for (let i = 0; i < KEYBOARD.length; i++) {
-  createKeyboard(KEYBOARD[i]);
+  if (localStorage.getItem('lang').includes('eng')) {
+    createKeyboard(ENG_KEYBOARD3[i]);
+  }else{
+    createKeyboard(KEYBOARD[i]);
+  }
 }
 
 const KEYS = document.querySelectorAll('.key');
@@ -50,6 +60,7 @@ const ALT_RIGHT = document.querySelectorAll('.Alt')[1];
 const SPACE = document.querySelector('.space');
 const BODY = document.querySelector('body');
 
+console.log(localStorage.getItem('lang'));
 const arrChars = [];
 const changeLangArr = ['ControlLeft', 'AltLeft'];
 
@@ -143,6 +154,7 @@ document.addEventListener('keydown', (event) => {
     if (event.code == 'AltRight') {
       ALT_LEFT.classList.remove('active');
     }
+    
   }
   if (event.code == 'Backspace') {
     TEXTAREA.value = TEXTAREA.value.split('').slice(0, TEXTAREA.value.length - 1).join('');
@@ -231,19 +243,26 @@ document.addEventListener('keyup', () => {
     }
   }
 
-  if (CONTAINER_KEYS.classList.contains('eng')) {
+  if (localStorage.getItem('lang').includes('eng')) {
     for (let i = 0; i < KEYS.length; i++) {
       let arr = [];
       arr = arr.concat(...KEYBOARD);
       KEYS[i].innerText = arr[i];
       CONTAINER_KEYS.classList.remove('eng');
     }
-  } else {
+  }
+  if (!localStorage.getItem('lang').includes('eng')){
     for (let i = 0; i < KEYS.length; i++) {
       CONTAINER_KEYS.classList.add('eng');
       KEYS[i].innerText = ENG_KEYBOARD[i];
     }
   }
+  localStorage.setItem('eng', KEYBOARD);
+  localStorage.setItem('lang', CONTAINER_KEYS.classList)
+
+  console.log(localStorage.getItem('lang'));
+  console.log(localStorage.getItem('eng'));
+
   CAPSLOCK.classList.remove('active');
   arrChars.length = 0;
 });
