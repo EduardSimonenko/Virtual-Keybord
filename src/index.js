@@ -228,6 +228,9 @@ document.addEventListener('click', (event) => {
   if (event.target.innerHTML === 'Backspace') {
     TEXTAREA.value = func.deleteLastLetter(TEXTAREA.value);
   }
+  if (event.target.innerHTML === 'Enter') {
+    TEXTAREA.value = `${TEXTAREA.value.split('').slice(0, TEXTAREA.selectionStart).join('')}\r\n${TEXTAREA.value.split('').slice(TEXTAREA.selectionStart, TEXTAREA.value.length).join('')}`;
+  }
 });
 
 document.addEventListener('keydown', (event) => {
@@ -257,11 +260,7 @@ document.addEventListener('keyup', () => {
       KEYS[i].innerText = ENG_KEYBOARD[i];
     }
   }
-  localStorage.setItem('eng', KEYBOARD);
   localStorage.setItem('lang', CONTAINER_KEYS.classList)
-
-  console.log(localStorage.getItem('lang'));
-  console.log(localStorage.getItem('eng'));
 
   CAPSLOCK.classList.remove('active');
   arrChars.length = 0;
