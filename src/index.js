@@ -157,7 +157,7 @@ document.addEventListener('keydown', (event) => {
     
   }
   if (event.code == 'Backspace') {
-    TEXTAREA.value = TEXTAREA.value.split('').slice(0, TEXTAREA.value.length - 1).join('');
+    TEXTAREA.value = `${TEXTAREA.value.split('').slice(0, TEXTAREA.selectionStart).join('')}${TEXTAREA.value.split('').slice(TEXTAREA.selectionStart, TEXTAREA.value.length).join('')}`;
   }
 });
 
@@ -213,7 +213,11 @@ document.addEventListener('keyup', (event) => {
 
 document.addEventListener('click', (event) => {
   if (event.target.innerText.length < 2) {
-    TEXTAREA.value += event.target.innerText;
+    let start = TEXTAREA.selectionStart;
+    let end = TEXTAREA.selectionEnd;
+    TEXTAREA.value =`${TEXTAREA.value.split('').slice(0, TEXTAREA.selectionStart).join('')}${event.target.innerText}${TEXTAREA.value.split('').slice(TEXTAREA.selectionStart, TEXTAREA.value.length).join('')}`;
+    TEXTAREA.focus();
+    TEXTAREA.selectionEnd = start + 1;
   }
   if (event.target.innerText == 'CapsLock') {
     CAPSLOCK.classList.toggle('active');
@@ -226,10 +230,25 @@ document.addEventListener('click', (event) => {
     }, 600);
   }
   if (event.target.innerHTML === 'Backspace') {
-    TEXTAREA.value = func.deleteLastLetter(TEXTAREA.value);
+    let start = TEXTAREA.selectionStart;
+    let end = TEXTAREA.selectionEnd;
+    TEXTAREA.value = `${TEXTAREA.value.split('').slice(0, TEXTAREA.selectionStart - 1).join('')}${TEXTAREA.value.split('').slice(TEXTAREA.selectionStart, TEXTAREA.value.length).join('')}`;
+    TEXTAREA.focus();
+    TEXTAREA.selectionEnd = start - 1;
   }
   if (event.target.innerHTML === 'Enter') {
+    let start = TEXTAREA.selectionStart;
+    let end = TEXTAREA.selectionEnd;
     TEXTAREA.value = `${TEXTAREA.value.split('').slice(0, TEXTAREA.selectionStart).join('')}\r\n${TEXTAREA.value.split('').slice(TEXTAREA.selectionStart, TEXTAREA.value.length).join('')}`;
+    TEXTAREA.focus();
+    TEXTAREA.selectionEnd = start + 1;
+  }
+  if (event.target.innerHTML === 'del') {
+    let start = TEXTAREA.selectionStart;
+    let end = TEXTAREA.selectionEnd;
+    TEXTAREA.value = `${TEXTAREA.value.split('').slice(0, start).join('')}${TEXTAREA.value.split('').slice(start + 1, TEXTAREA.value.length).join('')}`;
+    TEXTAREA.focus();
+    TEXTAREA.selectionEnd = end ;
   }
 });
 
