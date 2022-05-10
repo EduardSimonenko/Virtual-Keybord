@@ -43,8 +43,12 @@ function createKeyboard(row) {
   }
 }
 
+console.log(localStorage.lang);
 for (let i = 0; i < KEYBOARD.length; i++) {
-  if (localStorage.lang.includes('eng')) {
+  if(!localStorage.lang){
+    createKeyboard(KEYBOARD[i]);
+    CONTAINER_KEYS.classList.remove('eng');
+  }else if (localStorage.lang.includes('eng')) {
     createKeyboard(ENG_KEYBOARD3[i]);
     CONTAINER_KEYS.classList.add('eng');
   }else{
