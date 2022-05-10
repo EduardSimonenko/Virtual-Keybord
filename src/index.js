@@ -304,4 +304,5 @@ COLOR_INPUT.addEventListener('input', () =>{
     KEYS[i].style.color = COLOR_INPUT.value;
   }
   CONTAINER_KEYS.style.backgroundColor =  COLOR_INPUT.value;
+  TEXTAREA.style.borderColor = COLOR_INPUT.value;
 })
