@@ -44,10 +44,12 @@ function createKeyboard(row) {
 }
 
 for (let i = 0; i < KEYBOARD.length; i++) {
-  if (window.localStorage.getItem('lang').includes('eng')) {
+  if (localStorage.lang.includes('eng')) {
     createKeyboard(ENG_KEYBOARD3[i]);
+    CONTAINER_KEYS.classList.add('eng');
   }else{
     createKeyboard(KEYBOARD[i]);
+    CONTAINER_KEYS.classList.remove('eng');
   }
 }
 
@@ -71,6 +73,7 @@ DESCRIPTION.innerText = 'Для переключения языка комбин
 TEXTAREA.setAttribute('id', 'textarea');
 TEXTAREA.setAttribute('rows', '5');
 TEXTAREA.setAttribute('cols', '40');
+COLOR_INPUT.setAttribute('type', 'color');
 
 for (let i = 0; i < KEYS.length; i++) {
   KEYS[i].setAttribute('keyname', KEYS[i].innerText);
@@ -271,7 +274,7 @@ document.addEventListener('keyup', () => {
     }
   }
 
-  if (window.localStorage.getItem('lang').includes('eng')) {
+  if (localStorage.lang.includes('eng')) {
     for (let i = 0; i < KEYS.length; i++) {
       let arr = [];
       arr = arr.concat(...KEYBOARD);
@@ -279,14 +282,16 @@ document.addEventListener('keyup', () => {
       CONTAINER_KEYS.classList.remove('eng');
     }
   }
-  if (!window.localStorage.getItem('lang').includes('eng')){
+  if (!localStorage.lang.includes('eng')){
     for (let i = 0; i < KEYS.length; i++) {
       CONTAINER_KEYS.classList.add('eng');
       KEYS[i].innerText = ENG_KEYBOARD[i];
     }
   }
-  window.localStorage.setItem('lang', CONTAINER_KEYS.classList)
+  localStorage.setItem('lang', CONTAINER_KEYS.classList);
 
   CAPSLOCK.classList.remove('active');
   arrChars.length = 0;
 });
+
+localStorage.setItem('lang', CONTAINER_KEYS.classList);
