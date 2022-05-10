@@ -43,7 +43,6 @@ function createKeyboard(row) {
   }
 }
 
-console.log(localStorage.lang);
 for (let i = 0; i < KEYBOARD.length; i++) {
   if(!localStorage.lang){
     createKeyboard(KEYBOARD[i]);
@@ -299,3 +298,10 @@ document.addEventListener('keyup', () => {
 });
 
 localStorage.setItem('lang', CONTAINER_KEYS.classList);
+
+COLOR_INPUT.addEventListener('input', () =>{
+  for(let i = 0; i < KEYS.length; i++){
+    KEYS[i].style.color = COLOR_INPUT.value;
+  }
+  CONTAINER_KEYS.style.backgroundColor =  COLOR_INPUT.value;
+})
