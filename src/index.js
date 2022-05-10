@@ -60,7 +60,6 @@ const ALT_RIGHT = document.querySelectorAll('.Alt')[1];
 const SPACE = document.querySelector('.space');
 const BODY = document.querySelector('body');
 
-console.log(localStorage.getItem('lang'));
 const arrChars = [];
 const changeLangArr = ['ControlLeft', 'AltLeft'];
 
@@ -157,7 +156,11 @@ document.addEventListener('keydown', (event) => {
     
   }
   if (event.code == 'Backspace') {
-    TEXTAREA.value = `${TEXTAREA.value.split('').slice(0, TEXTAREA.selectionStart).join('')}${TEXTAREA.value.split('').slice(TEXTAREA.selectionStart, TEXTAREA.value.length).join('')}`;
+    if(TEXTAREA.selectionStart === TEXTAREA.value.length){
+      TEXTAREA.value =`${TEXTAREA.value.split('').slice(0, TEXTAREA.value.length - 1).join('')}`;
+    }else{
+      TEXTAREA.value = `${TEXTAREA.value.split('').slice(0, TEXTAREA.selectionStart).join('')}${TEXTAREA.value.split('').slice(TEXTAREA.selectionStart, TEXTAREA.value.length).join('')}`;
+    }
   }
 });
 
