@@ -14,7 +14,8 @@ const ENG_KEYBOARD = [
   'CapsLock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', 'Enter',
   'Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', '▲', 'Shift',
   'Ctrl', 'Win', 'Alt', '', 'Alt', '◄', '▼', '►', 'Ctrl'];
-  const ENG_KEYBOARD3 = [
+
+const ENG_KEYBOARD3 = [
     [ '`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
     ['Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\', 'del'],
     ['CapsLock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', 'Enter'],
@@ -23,6 +24,7 @@ const ENG_KEYBOARD = [
 
 const CONTAINER = func.addElement('div', 'container', document.body);
 const TITLE = func.addElement('h1', 'title', CONTAINER);
+const COLOR_INPUT = func.addElement('input', 'color-input', CONTAINER);
 const TEXTAREA = func.addElement('textarea', 'textarea', CONTAINER);
 const CONTAINER_KEYS = func.addElement('div', 'container-keys', CONTAINER);
 const DESCRIPTION = func.addElement('div', 'description', CONTAINER);
@@ -42,7 +44,7 @@ function createKeyboard(row) {
 }
 
 for (let i = 0; i < KEYBOARD.length; i++) {
-  if (localStorage.getItem('lang').includes('eng')) {
+  if (window.localStorage.getItem('lang').includes('eng')) {
     createKeyboard(ENG_KEYBOARD3[i]);
   }else{
     createKeyboard(KEYBOARD[i]);
@@ -111,6 +113,7 @@ BODY.addEventListener('keydown', (event) => {
     CAPSLOCK.classList.contains('active') ? func.translateToUpperCase(KEYS) : func.translateToLowerCase(KEYS);
   }
 });
+
 
 document.addEventListener('keydown', (event) => {
   for (let i = 0; i < KEYS.length; i++) {
@@ -215,7 +218,7 @@ document.addEventListener('keyup', (event) => {
 });
 
 document.addEventListener('click', (event) => {
-  if (event.target.innerText.length < 2) {
+  if ((event.target.innerText.length < 2) && (event.target != COLOR_INPUT)) {
     let start = TEXTAREA.selectionStart;
     let end = TEXTAREA.selectionEnd;
     TEXTAREA.value =`${TEXTAREA.value.split('').slice(0, TEXTAREA.selectionStart).join('')}${event.target.innerText}${TEXTAREA.value.split('').slice(TEXTAREA.selectionStart, TEXTAREA.value.length).join('')}`;
@@ -268,7 +271,7 @@ document.addEventListener('keyup', () => {
     }
   }
 
-  if (localStorage.getItem('lang').includes('eng')) {
+  if (window.localStorage.getItem('lang').includes('eng')) {
     for (let i = 0; i < KEYS.length; i++) {
       let arr = [];
       arr = arr.concat(...KEYBOARD);
@@ -276,13 +279,13 @@ document.addEventListener('keyup', () => {
       CONTAINER_KEYS.classList.remove('eng');
     }
   }
-  if (!localStorage.getItem('lang').includes('eng')){
+  if (!window.localStorage.getItem('lang').includes('eng')){
     for (let i = 0; i < KEYS.length; i++) {
       CONTAINER_KEYS.classList.add('eng');
       KEYS[i].innerText = ENG_KEYBOARD[i];
     }
   }
-  localStorage.setItem('lang', CONTAINER_KEYS.classList)
+  window.localStorage.setItem('lang', CONTAINER_KEYS.classList)
 
   CAPSLOCK.classList.remove('active');
   arrChars.length = 0;
