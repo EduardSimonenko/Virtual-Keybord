@@ -173,11 +173,7 @@ document.addEventListener('keydown', (event) => {
     }
   }
   if (event.code == 'Backspace') {
-    if (TEXTAREA.selectionStart === TEXTAREA.value.length) {
-      TEXTAREA.value = `${TEXTAREA.value.split('').slice(0, TEXTAREA.value.length - 1).join('')}`;
-    } else {
-      TEXTAREA.value = `${TEXTAREA.value.split('').slice(0, TEXTAREA.selectionStart).join('')}${TEXTAREA.value.split('').slice(TEXTAREA.selectionStart - 1, TEXTAREA.value.length).join('')}`;
-    }
+    TEXTAREA.focus();
   }
 
   if (event.code == 'Tab') {
