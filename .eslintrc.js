@@ -1,0 +1,13 @@
+module.exports = {
+  env: {
+    browser: true,
+    es2021: true,
+  },
+  extends: ['airbnb-base'],
+  rules: {
+    'linebreak-style': 'off',
+    'no-plusplus': 'off',
+    eqeqeq: 'off',
+    'import/prefer-default-export': 'off',
+  },
+};
